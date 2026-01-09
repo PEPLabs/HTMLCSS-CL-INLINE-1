@@ -10,23 +10,26 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions; //take away the screen flickering during each test when it trys to run each chrome session
+
 
 public class SeleniumTest {
 
     private WebDriver driver;
 
-    @Before
-    public void setUp() {
-        // REQUIRED by old extension – do not change
-        System.setProperty("webdriver.chrome.driver", "driver/chromedriver");
+   @Before 
+   public void setUp() {
+    System.setProperty("webdriver.chrome.driver", "driver/chromedriver");
 
-        driver = new ChromeDriver();
+    ChromeOptions options = new ChromeOptions();
+    options.addArguments("headless");
 
-        // Load local HTML file via file:// URL
-        File file = new File("src/main/StyledElements.html");
-        String path = "file://" + file.getAbsolutePath();
-        driver.get(path);
+    driver = new ChromeDriver(options);
+
+    File file = new File("src/main/StyledElements.html");
+    driver.get(file.toURI().toString());
     }
+
 
     @Test
     public void testItalicText() {
@@ -56,6 +59,7 @@ public class SeleniumTest {
         driver.quit();
     }
 }
+
 
 
 
